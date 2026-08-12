@@ -1,0 +1,19 @@
+name: security-development-tp1
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default-network
+    ports:
+      - "8687:3000"
+    volumes:
+      - type: bind
+        source: .
+        target: /web
+
+networks:
+  default-network:
+    driver: bridge
