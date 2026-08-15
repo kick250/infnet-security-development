@@ -1,0 +1,3 @@
+# Justifique, em um parágrafo curto, por que separar routers por recurso facilita a manutenção de uma API que crescerá para múltiplos domínios.
+## Resposta:
+Separar os routes por recurso, por exemplo events\(serve /events\) e users\(serve /users\), é importate para manter a facilidade e rapidez para achar os componentes router responsáveis por servir aquele recurso, principalmente quando sabe-se que no futuro existirão outros recursos, e mante-los no mesmo lugar além de dificultar a manutenção também aumenta o risco de side-efect.
