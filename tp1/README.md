@@ -12,5 +12,14 @@ Aqui ficam os componentes responsáveis por encapsular os formatos de entrada e 
 #### databases
 Esse módulo armazena componentes e arquivos relacionados aos bancos de dados que nossa aplicação usar, como configuração de conexões e migrações.
 
+#### repositories
+Esse módulo armazena componentes responsáveis pelo logica de armazenamento das entidades(ex: eventos e usuarios), desacoplando a implementação do banco da logica de negócio.
+
+#### static
+Esse módulo armazena os arquivos estáticos da nossa aplicação.
+
+#### templates
+Esse módulo armazena os templates que servem de base para rendenizar o frontend.
+
 ### docs
 Nessa pasta ficam a documentação do nosso projeto, assim como prints e respostas por escritas para cada exercicio proposto no TP1.
