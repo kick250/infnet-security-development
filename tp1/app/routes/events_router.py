@@ -24,7 +24,7 @@ class EventsRouter(BaseRouter):
         if not event:
             self._render_http_exception(404, "This event couldn't be found.")
 
-        return { "result": event }
+        return event
 
     def create_handler(self, event: Annotated[NewEvent, Body(embed=True)]) -> ResponseModel:
         created_event = self.__events_repository.save(
