@@ -8,6 +8,7 @@ class EventsViewRouter(BaseViewRouter):
     def __init__(self):
         super().__init__("/events", ["ViewEvents"])
         self._add_route("/", self.render_index, methods=["GET"])
+        self._add_route("/{id}", self.render_detail, methods=["GET"])
         self.__events_repository = EventsRepository.build()
 
     def render_index(self, request: Request):
@@ -18,3 +19,8 @@ class EventsViewRouter(BaseViewRouter):
             "events_count": len(events)
         }
         return self._render_template(request, "index.html", context=context)
+
+    def render_detail(self, request: Request, id: int):
+        event = self.__events_repository.get_by_id(id)
+        context = { "event": event }
+        return self._render_template(request, "show.html", context=context)

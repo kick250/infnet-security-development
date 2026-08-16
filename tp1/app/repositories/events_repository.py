@@ -6,7 +6,15 @@ class EventsRepository:
 
     @classmethod
     def build(cls):
-        return cls()
+        repository = cls()
+        repository.save(
+            "Evento doogle",
+            "doogle",
+            "2026-12-01",
+            10,
+            id=1
+        )
+        return repository
 
     def get_all(self):
         return tuple(self.__events_records.values())

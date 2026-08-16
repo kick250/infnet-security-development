@@ -20,3 +20,6 @@ class ResponseModel(BaseModel):
 
     def formatted_date(self):
         return self.date.strftime("%d/%m/%Y")
+
+    def event_detail_path(self):
+        return f"/view/events/{self.id}"

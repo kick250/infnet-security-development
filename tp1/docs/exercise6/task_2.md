@@ -1,0 +1,3 @@
+# 2. Explique, em até seis linhas, por que a renderização de input do usuário sem escape adequado representa um risco de XSS, e o que o auto-escape do Jinja2 faz para mitigar isso.
+## Resposta
+O XSS(Cross-Site Scripting) é uma falha de segurança em que se baseia em inserir um codigo malicioso no input não tratado, e quando esse input é rendenizado na tela sem o escape causa a execução daquele script e crian"do uma vunerabilidade. O Jinja2, como mostrando no print, troca o caracter \"<\" e \">\" por respectivamente \"&lt;\" e \"&gt;\", isso faz com que no momento da exibição na tela ele apareça corretamente, mas é ignorado como uma tag script valida e por isso não executa o código ali dentro.
