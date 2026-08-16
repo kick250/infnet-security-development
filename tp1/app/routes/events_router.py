@@ -1,9 +1,9 @@
 from routes.base_router import BaseRouter
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import Body
-import uuid
 from models.events.new_event_model import NewEvent
 from models.events.response_model import ResponseModel
+from repositories.events_repository import EventsRepository
 
 class EventsRouter(BaseRouter):
     def __init__(self):
@@ -12,13 +12,14 @@ class EventsRouter(BaseRouter):
         self._add_api_route("/{id}", self.get_by_id_handler, methods=["GET"])
         self._add_api_route("/", self.create_handler, methods=["post"])
 
-        self.__events = {}
+        self.__events_repository = EventsRepository.build()
 
-    def get_all_handler(self):
-        return { "result": self.__events }
+    def get_all_handler(self) -> List[ResponseModel]:
+        events = self.__events_repository.get_all()
+        return events
 
-    def get_by_id_handler(self, id: int):
-        event = self.__events.get(int(id))
+    def get_by_id_handler(self, id: int) -> ResponseModel:
+        event = self.__events_repository.get_by_id(int(id))
 
         if not event:
             self._render_http_exception(404, "This event couldn't be found.")
@@ -26,22 +27,10 @@ class EventsRouter(BaseRouter):
         return { "result": event }
 
     def create_handler(self, event: Annotated[NewEvent, Body(embed=True)]) -> ResponseModel:
-        created_event = self.__create_event(event)
+        created_event = self.__events_repository.save(
+            event.name,
+            event.host,
+            event.size
+        )
 
         return created_event
-
-    def __create_event(self, new_event):
-        event = {
-            "id": self.__generate_id(),
-            "name": new_event.name,
-            "size": new_event.size,
-            "audit_token": self.__generate_audit_token()
-        }
-        self.__events[event["id"]] = event
-        return event
-
-    def __generate_id(self):
-        return len(self.__events.keys()) + 1
-
-    def __generate_audit_token(self):
-        return str(uuid.uuid4())
