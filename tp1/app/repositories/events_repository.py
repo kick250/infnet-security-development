@@ -14,7 +14,7 @@ class EventsRepository:
     def get_by_id(self, id):
         return self.__events_records.get(id)
 
-    def save(self, name, host, size, id=None):
+    def save(self, name, host, date, size, id=None):
         if not id:
             id = self.__generate_id()
 
@@ -22,6 +22,7 @@ class EventsRepository:
             "id": id,
             "name": name,
             "host": host,
+            "date": date,
             "size": size,
             "audit_token": self.__generate_audit_token()
         }

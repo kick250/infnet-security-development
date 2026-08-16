@@ -10,6 +10,7 @@
             <th class="event-data">Id</th>
             <th class="event-data">Nome</th>
             <th class="event-data">Organizador</th>
+            <th class="event-data">Data</th>
             <th class="event-data">Tamanho</th>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
                     <td class="text-center event-data">{{ event.id }}</td>
                     <td class="text-start event-data">{{ event.name }}</td>
                     <td class="text-center event-data">{{ event.host }}</td>
+                    <td class="text-center event-data">{{ event.formatted_date() }}</td>
                     <td class="text-center event-data">{{ event.size }} pessoas</td>
                 </tr>
             {% endfor %}

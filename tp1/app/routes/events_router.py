@@ -30,6 +30,7 @@ class EventsRouter(BaseRouter):
         created_event = self.__events_repository.save(
             event.name,
             event.host,
+            event.date,
             event.size
         )
 
