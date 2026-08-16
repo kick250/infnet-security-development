@@ -30,14 +30,14 @@ pyyaml==6.0.3
 rich==15.0.0
 rich-toolkit==0.20.3
 rignore==0.8.1
-sentry-sdk==2.67.1
+sentry-sdk==2.68.0
 shellingham==1.5.4
 starlette==1.6.0
 typer==0.27.1
 typing-extensions==4.16.0
-typing-inspection==0.4.3
+typing-inspection==0.4.4
 urllib3==2.7.0
-uvicorn==0.52.1
+uvicorn==0.52.3
 uvloop==0.22.1
 watchfiles==1.2.0
 websockets==17.0.1

@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Meus Eventos</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <h1 class="text-center">Meus Eventos ({{events_count}})</h1>
+    <table class="flex-center">
+        <thead>
+            <th class="event-data">Id</th>
+            <th class="event-data">Nome</th>
+            <th class="event-data">Organizador</th>
+            <th class="event-data">Tamanho</th>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td class="text-center event-data">{{ event.id }}</td>
+                    <td class="text-start event-data">{{ event.name }}</td>
+                    <td class="text-center event-data">{{ event.host }}</td>
+                    <td class="text-center event-data">{{ event.size }} pessoas</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

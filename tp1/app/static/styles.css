@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    background: whitesmoke;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-start {
+    text-align: start;
+}
+
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.event-data {
+    width: 200px;
+    border-bottom: 2px grey solid;
+}
