@@ -1,3 +1,0 @@
-# 3. Explique, em até cinco linhas, qual dado sensível seria exposto na versão sem response_model e qual seria o impacto prático dessa exposição para o organizador do evento.
-## Resposta:
-Dependendo de quais dados aquele endpoint estivesse retornando em um caso real, não filtrar a resposta poderia vazar informações doe evento que não estariam disponiveis para o publica, como por exemplo o número de ingressos que ja foram vendidos, uma participação especial que apareceria no evento ou ate mesmo, se for um evento para apresentar novos produtos de uma empresa, vazar os produtos que seriam apresentados la antes mesmo da data do evento.
