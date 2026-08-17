@@ -1,0 +1,28 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+    <h1 class="text-center">Meus Eventos ({{events_count}})</h1>
+    <table class="flex-center">
+        <thead>
+            <th class="event-data">Id</th>
+            <th class="event-data">Nome</th>
+            <th class="event-data">Organizador</th>
+            <th class="event-data">Data</th>
+            <th class="event-data">Tamanho</th>
+            <th class="event-data"></th>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td class="text-center event-data">{{ event.id }}</td>
+                    <td class="text-start event-data">{{ event.name }}</td>
+                    <td class="text-center event-data">{{ event.host }}</td>
+                    <td class="text-center event-data">{{ event.formatted_date() }}</td>
+                    <td class="text-center event-data">{{ event.size }} pessoas</td>
+                    <td class="text-center event-data">
+                        <a href="{{ event.event_detail_path() }}">Detalhes</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

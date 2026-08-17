@@ -1,0 +1,26 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+    <h1 class="text-center">Detalhe do evento {{ event.name }}</h1>
+    <div class="event-details-page-content">
+        <div id="event-details">
+            <div>
+                <div class="event-detail-cell">
+                    <label for="id">Id</label>
+                    <input id="id" value="{{ event.id }}" disabled>
+                </div>
+                <div class="event-detail-cell">
+                    <label for="name">Nome</label>
+                    <input id="name" value="{{ event.name }}" disabled>
+                </div>
+                <div class="event-detail-cell">
+                    <label for="host">Organizador</label>
+                    <input id="host" value="{{ event.host }}" disabled>
+                </div>
+                <div class="event-detail-cell">
+                    <label for="size">Tamanho</label>
+                    <input id="size" value="{{ event.size }} pessoas" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
