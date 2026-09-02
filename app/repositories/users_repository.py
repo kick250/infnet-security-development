@@ -1,12 +1,13 @@
 from entities.user import User
 
-
 class UsersRepository:
     __users_records = [
         [
             1010,
             "breno.nova@al.infnet.edu.br",
-            "$2b$12$lcLRKh8qb95WtfVOMtfAPeilWCb8QrfUaQXmrGKyDge1YbvB9hTWm"
+            "$2b$12$lcLRKh8qb95WtfVOMtfAPeilWCb8QrfUaQXmrGKyDge1YbvB9hTWm",
+            User.RESOURCES_ACCESS_TYPE,
+            { "events": { "read": True, "write": False, "delete": False } }
         ],
         [
             1212,

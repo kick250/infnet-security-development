@@ -7,7 +7,7 @@ from repositories.events_repository import EventsRepository
 from models.events.update_event import UpdateEvent
 from fastapi import HTTPException, status
 from entities.user import User
-from auth import get_active_user
+from auth import AuthService
 
 
 class EventsRouter(BaseRouter):
@@ -35,7 +35,7 @@ class EventsRouter(BaseRouter):
     def create_handler(
             self,
             event: Annotated[NewEvent, Body(embed=True)],
-            user: Annotated[User, Depends(get_active_user)]
+            user: Annotated[User, Depends(AuthService.get_active_user)]
         ) -> ResponseModel:
         created_event = self.__events_repository.save(
             event.name,
@@ -51,7 +51,7 @@ class EventsRouter(BaseRouter):
             self,
             id: Annotated[int, Required],
             event: Annotated[UpdateEvent, Body(embed=True)],
-            user: Annotated[User, Depends(get_active_user)]
+            user: Annotated[User, Depends(AuthService.get_active_user)]
         ) -> ResponseModel:
         self.__check_ownership(id, user.id)
 
