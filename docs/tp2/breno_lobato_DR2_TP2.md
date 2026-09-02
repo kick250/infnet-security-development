@@ -34,11 +34,17 @@ Os casos foram priorizados com base no impacto potencial sobre os dados e a disp
 Com os misuse cases levantados, o próximo passo pedido pelo tech lead é categorizar as ameaças de forma sistemática usando o framework STRIDE, padrão adotado pela empresa para toda modelagem de ameaças de novos serviços antes de qualquer deploy em produção. A ideia é que cada componente da API (autenticação, rotas de eventos, banco de dados simulado) seja avaliado individualmente contra as seis categorias do STRIDE, para que nenhuma classe de ameaça relevante seja esquecida na análise, já que uma análise informal anterior, feita sem framework, deixou passar uma ameaça de elevação de privilégio que só foi descoberta em produção.
 
 ### Tarefa
-- Aplique o framework STRIDE a pelo menos três componentes do eventos-api (por exemplo, rota de criação de evento, camada de autenticação futura, armazenamento de dados).
-- Para cada componente, identifique pelo menos uma ameaça correspondente a uma das seis categorias STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege).
-- Registre os resultados em uma tabela com as colunas Componente, Categoria STRIDE, Ameaça identificada.
+1. Aplique o framework STRIDE a pelo menos três componentes do eventos-api (por exemplo, rota de criação de evento, camada de autenticação futura, armazenamento de dados).
+2. Para cada componente, identifique pelo menos uma ameaça correspondente a uma das seis categorias STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege).
+3. Registre os resultados em uma tabela com as colunas Componente, Categoria STRIDE, Ameaça identificada.
 
 ### Resposta
+#### Tarefa 1. & 2. & 3.
+| Componente | Categoria STRIDE | Ameaça Identificada |
+|---|---|---|
+| `EventsRouter#create_handler` | Spoofing | Um atacante pode criar um evento sem autenticação, se passando por outro organizador. |
+| `EventsRouter#get_all_handler` | Information Disclosure | Um atacante pode consultar eventos sem checagem de permissão de acesso, obtendo informações que deveriam ser privadas. |
+| `EventsRepository#save` | Denial of Service | O armazenamento em memória pode consumir recursos além do esperado caso sejam enviados muitos eventos para a aplicação. |
 
 
 ##  Exercício 3
