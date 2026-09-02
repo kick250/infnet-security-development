@@ -54,9 +54,15 @@ Com os misuse cases levantados, o próximo passo pedido pelo tech lead é catego
 O time de segurança quer consolidar o trabalho dos dois exercícios anteriores em um artefato único e formal: o threat model do eventos-api. Esse documento será usado como referência oficial nas próximas etapas da disciplina e também pelo time de operações para priorizar correções antes de qualquer exposição do serviço a usuários externos. Um threat model incompleto, sem mapeamento claro de ativos e superfícies de ataque, foi rejeitado recentemente em outro projeto da empresa por não permitir rastrear quais mitigações cobrem quais ameaças, o que obrigou a equipe a refazer o documento inteiro sob pressão de prazo. Você precisa evitar esse retrabalho entregando um artefato completo desde a primeira versão.
 
 ### Tarefa
-- Construa o threat model do eventos-api, mapeando os ativos principais (dados de usuários, dados de eventos, credenciais futuras), as superfícies de ataque identificadas e as mitigações propostas para cada ameaça do Exercício 2.
-- Garanta que cada ameaça do STRIDE mapeado no Exercício 2 apareça no threat model com pelo menos uma mitigação associada.
-- Apresente o threat model em um documento único e legível, adequado para ser consultado por outro desenvolvedor sem contexto prévio.
+1. Construa o threat model do eventos-api, mapeando os ativos principais (dados de usuários, dados de eventos, credenciais futuras), as superfícies de ataque identificadas e as mitigações propostas para cada ameaça do Exercício 2.
+2. Garanta que cada ameaça do STRIDE mapeado no Exercício 2 apareça no threat model com pelo menos uma mitigação associada.
+3. Apresente o threat model em um documento único e legível, adequado para ser consultado por outro desenvolvedor sem contexto prévio.
+
+### Resposta
+#### Tarefa 1. & 2. & 3.
+Localizado:
+- pdf: docs/tp2/exercise3/thread-model.pdf
+- md: docs/tp2/exercise3/thread-model.md
 
 
 ## Exercício 4
