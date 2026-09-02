@@ -68,19 +68,33 @@ Localizado:
 ## Exercício 4
 
 ### Contexto
-
 Um arquiteto sênior revisando o eventos-api apontou que a modelagem de ameaças feita até aqui carece de uma visão formal da arquitetura do sistema: quais são os componentes reais, onde ficam as fronteiras de confiança entre eles e como os dados fluem de um componente a outro. Segundo ele, threat models construídos sem essa visão de partições tendem a ficar genéricos demais, cobrindo ameaças óbvias e deixando passar riscos específicos das fronteiras reais do sistema. Ele pediu que a equipe formalize essa visão, complementando o threat model já construído, antes de avançar para a implementação de autenticação na próxima etapa da disciplina.
 
 ### Tarefa
-- Identifique as fronteiras de segurança do eventos-api, particionando o sistema em pelo menos três componentes distintos (por exemplo, cliente, camada de API, armazenamento de dados).
-- Mapeie o fluxo de dados entre essas partições, indicando explicitamente onde uma requisição cruza uma fronteira de confiança.
-- Relacione, em um parágrafo curto, como essa visão de partições confirma ou refina as ameaças já identificadas no threat model do Exercício 3.
+1. Identifique as fronteiras de segurança do eventos-api, particionando o sistema em pelo menos três componentes distintos (por exemplo, cliente, camada de API, armazenamento de dados).
+2. Mapeie o fluxo de dados entre essas partições, indicando explicitamente onde uma requisição cruza uma fronteira de confiança.
+3. Relacione, em um parágrafo curto, como essa visão de partições confirma ou refina as ameaças já identificadas no threat model do Exercício 3.
+
+### Resposta
+#### Tarefa 1.
+##### Partições
+1. **Cliente:** Navegador ou ferramenta HTTP que envia as requisições.
+2. **API:** Aplicação FastAPI responsável por receber e processar as requisições.
+3. **Armazenamento:** Estrutura em memória usada para armazenar os dados da API.
+
+#### Tarefa 2.
+##### Fluxo de dados
+`Cliente =trust boundary> API => Armazenamento`
+
+A requisição **passa pelo trust boundary ao entrar na API**, pois os dados passam de um ambiente não confiável para o nosso sistema.
+
+#### Tarefa 3.
+Podemos ver pelo fluxo que a API processa a requisição e acessa o armazenamento para consultar ou salvar os dados de eventos.
 
 
 ## Exercício 5
 
 ### Contexto
-
 A empresa está avaliando abrir parte do eventos-api para parceiros externos consumirem via integração automatizada, além dos usuários finais que acessam pelo navegador. Antes de decidir o modelo de autenticação, o tech lead pede uma análise dos vetores de ataque possíveis segundo os três eixos de segurança de APIs (design, implementação, infraestrutura), para garantir que a decisão de arquitetura considere riscos além da simples validação de senha. Em uma discussão recente com o time de infraestrutura, ficou claro que decisões de autenticação tomadas sem olhar para o eixo de infraestrutura já causaram exposição indevida de endpoints internos em outro serviço da empresa, então essa análise precisa ser levada a sério antes da implementação.
 
 ### Tarefa
