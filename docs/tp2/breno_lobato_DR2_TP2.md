@@ -183,6 +183,47 @@ O modelo de RBAC com autorização por recurso permitiria que um organizador pud
 A empresa parceira que vai integrar via API pediu suporte a comunicação máquina-a-máquina (M2M), sem intervenção de um usuário humano no fluxo de autenticação, além do fluxo já existente para usuários finais autenticados pelo navegador. O contrato comercial assinado com o parceiro especifica exatamente quais operações ele pode executar, e o time jurídico da empresa exige que essa limitação seja tecnicamente garantida, não apenas descrita em papel. O time de segurança pede que os escopos de acesso sejam explícitos, para que o parceiro externo só consiga executar exatamente as operações autorizadas em contrato, nada além disso, mesmo que o token seja comprometido.
 
 ### Tarefa
-- Selecione o fluxo OAuth 2.0 mais adequado para o cenário M2M do parceiro externo, justificando a escolha frente ao fluxo já usado para usuários finais.
-- Configure escopos OAuth e claims JWT específicos para RBAC, distinguindo o escopo de um usuário organizador do escopo do parceiro M2M.
-- Demonstre, com um exemplo de payload de token decodificado, quais claims e escopos diferenciam os dois tipos de cliente.
+1. Selecione o fluxo OAuth 2.0 mais adequado para o cenário M2M do parceiro externo, justificando a escolha frente ao fluxo já usado para usuários finais.
+2. Configure escopos OAuth e claims JWT específicos para RBAC, distinguindo o escopo de um usuário organizador do escopo do parceiro M2M.
+3. Demonstre, com um exemplo de payload de token decodificado, quais claims e escopos diferenciam os dois tipos de cliente.
+
+### Resposta
+#### Tarefa 1.
+Para esse caso do M2M, o fluxo que eu escolhi foi o **Client Credentials**, pois o parceiro irá se comunicar máquina-a-máquina com a API. Diferente do fluxo de usuários normais, o parceiro também deseja acesso somente a determinados escopos de recursos da API.
+
+#### Tarefa 2.
+Implementado em código.
+- escopos OAuth e claims JWT: /app/services/token_service.py
+
+#### Tarefa 3.
+Na implementação feita as permissões são representadas no JWT através dos claims `access_type` e `allowed_resources`. Sendo a função de cada uma delas:
+- `access_type`: Identificar o tipo de acesso do cliente. Podendo ser `standard` para usuários normais ou `by_resources` para parceiros como o M2M.
+- `allowed_resources`: Define quais recursos e ações podem ser acessados.
+
+Exemplo de payload JWT para um usuário organizador:
+```json
+{
+  "sub": "1010",
+  "exp": 1788401989,
+  "access_type": "standard",
+  "allowed_resources": {},
+  "created_at": 1788400189.957734
+}
+```
+
+Exemplo de payload JWT para um parceiro máquina-a-máquina (M2M):
+```json
+{
+  "sub": "1012",
+  "exp": 1788401989,
+  "access_type": "by_resources",
+  "allowed_resources": {
+    "events": {
+      "read": true,
+      "write": true,
+      "delete": false
+    }
+  },
+  "created_at": 1788400189.957734
+}
+```
