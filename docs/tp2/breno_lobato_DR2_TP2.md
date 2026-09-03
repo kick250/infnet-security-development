@@ -156,9 +156,24 @@ Quando o usuário não é dono do evento:
 O time de compliance exige que sessões de usuário sigam boas práticas de segurança, incluindo expiração de token e suporte a múltiplos fatores de autenticação em contas administrativas, já que contas de administrador têm acesso a dados de todos os organizadores e participantes da plataforma. Ao mesmo tempo, o tech lead está decidindo entre RBAC e ABAC para controlar quem pode acessar quais recursos do eventos-api, já que o sistema terá papéis distintos (organizador, participante, administrador) com regras de acesso que podem variar por contexto, e uma escolha malfeita agora seria custosa de reverter depois que a base de usuários crescer.
 
 ### Tarefa
-- Implemente JWT com OAuth2 no eventos-api, incluindo expiração de token e um fluxo simulado de segundo fator de autenticação (MFA) para o papel de administrador.
-- Compare RBAC, ABAC e autorização por recurso, explicando qual modelo você recomendaria para o eventos-api e por quê, considerando os papéis organizador, participante e administrador.
-- Documente a decisão de modelo de autorização em um parágrafo técnico, citando pelo menos um cenário concreto do domínio de eventos em que o modelo escolhido se aplica.
+1. Implemente JWT com OAuth2 no eventos-api, incluindo expiração de token e um fluxo simulado de segundo fator de autenticação (MFA) para o papel de administrador.
+2. Compare RBAC, ABAC e autorização por recurso, explicando qual modelo você recomendaria para o eventos-api e por quê, considerando os papéis organizador, participante e administrador.
+3. Documente a decisão de modelo de autorização em um parágrafo técnico, citando pelo menos um cenário concreto do domínio de eventos em que o modelo escolhido se aplica.
+
+### Resposta
+#### Tarefa 1.
+Implementado em código.
+- OAuth2 com JWT: /app/routes/authentication_router.py
+
+#### Tarefa 2.
+- **RBAC:** Controla o acesso com base no papel do usuário, como administrador, participante ou organizador.
+- **ABAC:** Controla o acesso com base em atributos do usuário, recurso e contexto da requisição.
+- **Autorização por recurso:** Verifica se o usuário possui permissão sobre um recurso específico, como evento ou inscrição.
+
+Eu recomendaria **RBAC combinado com autorização por recurso**, pois o RBAC facilita o controle dos papéis, como organizador, participante e administrador, enquanto a autorização por recurso permite verificar se o usuário possui acesso ao evento específico.
+
+#### Tarefa 3.
+O modelo de RBAC com autorização por recurso permitiria que um organizador pudesse editar apenas os eventos que pertencem a ele, enquanto um participante poderia apenas ver ou se inscrever em eventos permitidos.
 
 
 ## Exercício 8
