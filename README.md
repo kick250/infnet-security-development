@@ -1,7 +1,7 @@
-# TP1 - API de Eventos
-API de eventos implementada com objetivo de cumprir os exercicios exigidos em [Exercicios TP1](https://github.com/kick250/infnet-security-development/blob/main/tp1/tp1_exercises.md).
+# TP2 - API de Eventos
+API de eventos implementada com objetivo de cumprir os exercicios exigidos em [Exercicios TP1](./docs/tp2/tp2.md).
 
-## Respostas para perguntas escritas no pdf breno_lobato_DR2_TP1.pdf
+## Respostas para perguntas escritas no pdf breno_lobato_DR2_TP2.md
 
 ## Módulos do Projeto
 ### app
