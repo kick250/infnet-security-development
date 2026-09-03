@@ -61,8 +61,8 @@ O time de segurança quer consolidar o trabalho dos dois exercícios anteriores 
 ### Resposta
 #### Tarefa 1. & 2. & 3.
 Localizado:
-- pdf: https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise3/threat-model.pdf
-- md: https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise3/threat-model.md
+- pdf: https://github.com/kick250/infnet-security-development/tree/main/docs/tp2/exercise3/threat-model.pdf
+- md: https://github.com/kick250/infnet-security-development/tree/main/docs/tp2/exercise3/threat-model.md
 
 
 ## Exercício 4
