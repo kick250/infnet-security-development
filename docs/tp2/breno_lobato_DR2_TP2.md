@@ -98,9 +98,20 @@ Podemos ver pelo fluxo que a API processa a requisição e acessa o armazenament
 A empresa está avaliando abrir parte do eventos-api para parceiros externos consumirem via integração automatizada, além dos usuários finais que acessam pelo navegador. Antes de decidir o modelo de autenticação, o tech lead pede uma análise dos vetores de ataque possíveis segundo os três eixos de segurança de APIs (design, implementação, infraestrutura), para garantir que a decisão de arquitetura considere riscos além da simples validação de senha. Em uma discussão recente com o time de infraestrutura, ficou claro que decisões de autenticação tomadas sem olhar para o eixo de infraestrutura já causaram exposição indevida de endpoints internos em outro serviço da empresa, então essa análise precisa ser levada a sério antes da implementação.
 
 ### Tarefa
-- Para cada um dos três eixos de segurança de APIs (design, implementação, infraestrutura), identifique pelo menos um vetor de ataque relevante para o cenário de abertura do eventos-api a parceiros externos.
-- Indique, para cada vetor identificado, se ele já está coberto pelo threat model construído anteriormente ou se representa uma lacuna nova.
-- Justifique por que considerar os três eixos, e não apenas o eixo de implementação, é necessário antes de expor a API a consumidores externos.
+1. Para cada um dos três eixos de segurança de APIs (design, implementação, infraestrutura), identifique pelo menos um vetor de ataque relevante para o cenário de abertura do eventos-api a parceiros externos.
+2. Indique, para cada vetor identificado, se ele já está coberto pelo threat model construído anteriormente ou se representa uma lacuna nova.
+3. Justifique por que considerar os três eixos, e não apenas o eixo de implementação, é necessário antes de expor a API a consumidores externos.
+
+### Resposta
+#### Tarefa 1. & 2.
+| Eixo | Vetor de ataque | Coberto? |
+|---|---|---|
+| Design | Expor integração sem uma limitação baseada nos recursos que podem ser acessados pelo parceiro | ❌ |
+| Implementação | Ausência de autenticação nas rotas | ✅ |
+| Infraestrutura | Expor recursos internos acessados pela nossa API  | ❌ |
+
+#### Tarefa 3.
+Considerar esses três eixos é necessário porque a segurança da API não depende apenas da implementação. O design define quais recursos são disponibilizados, a implementação garante acesso autorizado e a infraestrutura protege a API e seus recursos internos contra acessos indevidos.
 
 
 ## Exercício 6
