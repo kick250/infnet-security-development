@@ -1,4 +1,11 @@
+# Instituto Infnet
 # Desenvolvimento Seguro de Aplicações Web TP2
+# Aluno: Breno Lobato Vila Nova
+# Curso: Engenharia de software
+# Cidade: Rio de Janeiro
+# Escola: ESTI
+# Data: 02/09/2026
+# Professor: Fabiano de Moraes Domingues
 
 ## Exercício 1
 
@@ -21,7 +28,7 @@ Antes de qualquer modelagem formal de ameaças, o time de segurança da empresa 
 | 4 | Atacante Externo | Enviar dados maliciosos nos campos de eventos | Inserção de dados maliciosos no banco | Não existe validação ou sanitização dos dados de entrada |
 
 #### Tarefa 3.
-Os casos foram priorizados com base no impacto potencial sobre os dados e a disponibilidade do sistema:
+- Os casos foram priorizados com base no impacto potencial sobre os dados e a disponibilidade do sistema:
 1. Criação não autorizada
 2. Acesso não autorizado
 3. Envio de dados maliciosos
@@ -42,9 +49,12 @@ Com os misuse cases levantados, o próximo passo pedido pelo tech lead é catego
 #### Tarefa 1. & 2. & 3.
 | Componente | Categoria STRIDE | Ameaça Identificada |
 |---|---|---|
-| `EventsRouter#create_handler` | Spoofing | Um atacante pode criar um evento sem autenticação, se passando por outro organizador. |
-| `EventsRouter#get_all_handler` | Information Disclosure | Um atacante pode consultar eventos sem checagem de permissão de acesso, obtendo informações que deveriam ser privadas. |
-| `EventsRepository#save` | Denial of Service | O armazenamento em memória pode consumir recursos além do esperado caso sejam enviados muitos eventos para a aplicação. |
+| `EventsRouter#cr
+eate_handler` | Spoofing | Um atacante pode criar um evento sem autenticação, se passando por outro organizador. |
+| `EventsRouter#get_al
+l_handler` | Information Disclosure | Um atacante pode consultar eventos sem checagem de permissão de acesso, obtendo informações que deveriam ser privadas. |
+| `EventsRepos
+itory#save` | Denial of Service | O armazenamento em memória pode consumir recursos além do esperado caso sejam enviados muitos eventos para a aplicação. |
 
 
 ##  Exercício 3
@@ -60,8 +70,9 @@ O time de segurança quer consolidar o trabalho dos dois exercícios anteriores 
 
 ### Resposta
 #### Tarefa 1. & 2. & 3.
-Localizado:
+
 - pdf: https://github.com/kick250/infnet-security-development/tree/main/docs/tp2/exercise3/threat-model.pdf
+
 - md: https://github.com/kick250/infnet-security-development/tree/main/docs/tp2/exercise3/threat-model.md
 
 
@@ -84,12 +95,14 @@ Um arquiteto sênior revisando o eventos-api apontou que a modelagem de ameaças
 
 #### Tarefa 2.
 ##### Fluxo de dados
-`Cliente =trust boundary> API => Armazenamento`
+
+- `Cliente =trust boundary> API => Armazenamento`
 
 A requisição **passa pelo trust boundary ao entrar na API**, pois os dados passam de um ambiente não confiável para o nosso sistema.
 
 #### Tarefa 3.
-Podemos ver pelo fluxo que a API processa a requisição e acessa o armazenamento para consultar ou salvar os dados de eventos.
+
+- Podemos ver pelo fluxo que a API processa a requisição e acessa o armazenamento para consultar ou salvar os dados de eventos.
 
 
 ## Exercício 5
@@ -106,12 +119,12 @@ A empresa está avaliando abrir parte do eventos-api para parceiros externos con
 #### Tarefa 1. & 2.
 | Eixo | Vetor de ataque | Coberto? |
 |---|---|---|
-| Design | Expor integração sem uma limitação baseada nos recursos que podem ser acessados pelo parceiro | ❌ |
-| Implementação | Ausência de autenticação nas rotas | ✅ |
-| Infraestrutura | Expor recursos internos acessados pela nossa API  | ❌ |
+| Design | Expor integração sem uma limitação baseada nos recursos que podem ser acessados pelo parceiro | Lacuna Nova |
+| Implementação | Ausência de autenticação nas rotas | Coberto |
+| Infraestrutura | Expor recursos internos acessados pela nossa API  | Lacuna Nova |
 
 #### Tarefa 3.
-Considerar esses três eixos é necessário porque a segurança da API não depende apenas da implementação. O design define quais recursos são disponibilizados, a implementação garante acesso autorizado e a infraestrutura protege a API e seus recursos internos contra acessos indevidos.
+- Considerar esses três eixos é necessário porque a segurança da API não depende apenas da implementação. O design define quais recursos são disponibilizados, a implementação garante acesso autorizado e a infraestrutura protege a API e seus recursos internos contra acessos indevidos.
 
 
 ## Exercício 6
@@ -126,27 +139,21 @@ Com a modelagem de ameaças consolidada, chegou a hora de implementar a primeira
 
 ### Resposta
 #### Tarefa 1.
-Implementado em código.
-autenticacao: /app/auth.py
-hashing bcrypt: /app/repositories/users_repository.py
+- autenticacao: /app/auth.py
+- hashing bcrypt: /app/repositories/users_repository.py
 
 #### Tarefa 2.
-Implementado em código.
-dependency injection:
-- arquivo: /app/routes/events_router.py
-- metodo: `EventsRouter#update_handler`
-verificação de ownership:
-- arquivo: /app/routes/events_router.py
-- metodo: `EventsRouter#__check_ownership`
+- dependency injection:
+  - arquivo: /app/routes/events_router.py
+  - metodo: `EventsRouter#update_handler`
+- verificação de ownership:
+  - arquivo: /app/routes/events_router.py
+  - metodo: `EventsRouter#__check_ownership`
 
 #### Tarefa 3.
-Prints:
+##### ![Quando o usuário é dono do evento](./docs/tp2/exercise6/owner_user.png)
 
-Quando o usuário é dono do evento:
-- ![Quando o usuário é dono do evento(local /docs/tp2/exercise6/owner_user.png)](https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise6/owner_user.png)
-
-Quando o usuário não é dono do evento:
-- ![Quando o usuário não é dono do evento(local /docs/tp2/exercise6/not_owner_user.png)](https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise6/not_owner_user.png)
+##### ![Quando o usuário não é dono do evento](./docs/tp2/exercise6/not_owner_user.png)
 
 
 ## Exercício 7
@@ -162,7 +169,6 @@ O time de compliance exige que sessões de usuário sigam boas práticas de segu
 
 ### Resposta
 #### Tarefa 1.
-Implementado em código.
 - OAuth2 com JWT: /app/routes/authentication_router.py
 
 #### Tarefa 2.
@@ -173,7 +179,7 @@ Implementado em código.
 Eu recomendaria **RBAC combinado com autorização por recurso**, pois o RBAC facilita o controle dos papéis, como organizador, participante e administrador, enquanto a autorização por recurso permite verificar se o usuário possui acesso ao evento específico.
 
 #### Tarefa 3.
-O modelo de RBAC com autorização por recurso permitiria que um organizador pudesse editar apenas os eventos que pertencem a ele, enquanto um participante poderia apenas ver ou se inscrever em eventos permitidos.
+- O modelo de RBAC com autorização por recurso permitiria que um organizador pudesse editar apenas os eventos que pertencem a ele, enquanto um participante poderia apenas ver ou se inscrever em eventos permitidos.
 
 
 ## Exercício 8
@@ -189,16 +195,16 @@ A empresa parceira que vai integrar via API pediu suporte a comunicação máqui
 
 ### Resposta
 #### Tarefa 1.
-Para esse caso do M2M, o fluxo que eu escolhi foi o **Client Credentials**, pois o parceiro irá se comunicar máquina-a-máquina com a API. Diferente do fluxo de usuários normais, o parceiro também deseja acesso somente a determinados escopos de recursos da API.
+- Para esse caso do M2M, o fluxo que eu escolhi foi o **Client Credentials**, pois o parceiro irá se comunicar máquina-a-máquina com a API. Diferente do fluxo de usuários normais, o parceiro também deseja acesso somente a determinados escopos de recursos da API.
 
 #### Tarefa 2.
-Implementado em código.
 - escopos OAuth e claims JWT: /app/services/token_service.py
 
 #### Tarefa 3.
-Na implementação feita as permissões são representadas no JWT através dos claims `access_type` e `allowed_resources`. Sendo a função de cada uma delas:
-- `access_type`: Identificar o tipo de acesso do cliente. Podendo ser `standard` para usuários normais ou `by_resources` para parceiros como o M2M.
-- `allowed_resources`: Define quais recursos e ações podem ser acessados.
+
+- Na implementação feita as permissões são representadas no JWT através dos claims `access_type` e `allowed_resources`. Sendo a função de cada uma delas:
+  - `access_type`: Identificar o tipo de acesso do cliente. Podendo ser `standard` para usuários normais ou `by_resources` para parceiros como o M2M.
+  - `allowed_resources`: Define quais recursos e ações podem ser acessados.
 
 Exemplo de payload JWT para um usuário organizador:
 ```json
