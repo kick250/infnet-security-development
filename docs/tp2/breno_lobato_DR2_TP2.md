@@ -61,8 +61,8 @@ O time de segurança quer consolidar o trabalho dos dois exercícios anteriores 
 ### Resposta
 #### Tarefa 1. & 2. & 3.
 Localizado:
-- pdf: docs/tp2/exercise3/thread-model.pdf
-- md: docs/tp2/exercise3/thread-model.md
+- pdf: https://github.com/kick250/infnet-security-development/tree/main/docs/tp2/exercise3/threat-model.pdf
+- md: https://github.com/kick250/infnet-security-development/tree/main/docs/tp2/exercise3/threat-model.md
 
 
 ## Exercício 4
@@ -117,13 +117,36 @@ Considerar esses três eixos é necessário porque a segurança da API não depe
 ## Exercício 6
 
 ### Contexto
-
 Com a modelagem de ameaças consolidada, chegou a hora de implementar a primeira camada real de autenticação do eventos-api. O produto exige que apenas usuários cadastrados possam criar e gerenciar eventos, e que senhas nunca sejam armazenadas em texto plano, requisito não negociável levantado pelo time de segurança na revisão do threat model, depois de um incidente em outro projeto da empresa em que senhas ficaram expostas em um vazamento de banco de dados por estarem salvas sem hashing. Além disso, rotas de edição de evento precisam garantir que apenas o organizador dono do evento possa modificá-lo, fechando a lacuna de autorização que o threat model já havia identificado.
 
 ### Tarefa
-- Implemente autenticação com OAuth2PasswordBearer no eventos-api, aplicando hashing de senha com bcrypt via passlib.
-- Proteja a rota de edição de evento usando dependency injection do FastAPI, garantindo que apenas o organizador dono do evento (verificação de ownership) possa executá-la.
-- Demonstre, com um teste manual via httpie ou similar, o comportamento da rota de edição para um usuário autenticado dono do evento e para um usuário autenticado que não é dono.
+1. Implemente autenticação com OAuth2PasswordBearer no eventos-api, aplicando hashing de senha com bcrypt via passlib.
+2. Proteja a rota de edição de evento usando dependency injection do FastAPI, garantindo que apenas o organizador dono do evento (verificação de ownership) possa executá-la.
+3. Demonstre, com um teste manual via httpie ou similar, o comportamento da rota de edição para um usuário autenticado dono do evento e para um usuário autenticado que não é dono.
+
+### Resposta
+#### Tarefa 1.
+Implementado em código.
+autenticacao: /app/auth.py
+hashing bcrypt: /app/repositories/users_repository.py
+
+#### Tarefa 2.
+Implementado em código.
+dependency injection:
+- arquivo: /app/routes/events_router.py
+- metodo: `EventsRouter#update_handler`
+verificação de ownership:
+- arquivo: /app/routes/events_router.py
+- metodo: `EventsRouter#__check_ownership`
+
+#### Tarefa 3.
+Prints:
+
+Quando o usuário é dono do evento:
+- ![Quando o usuário é dono do evento(local /docs/tp2/exercise6/owner_user.png)](https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise6/owner_user.png)
+
+Quando o usuário não é dono do evento:
+- ![Quando o usuário não é dono do evento(local /docs/tp2/exercise6/not_owner_user.png)](https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise6/not_owner_user.png)
 
 
 ## Exercício 7
@@ -133,9 +156,24 @@ Com a modelagem de ameaças consolidada, chegou a hora de implementar a primeira
 O time de compliance exige que sessões de usuário sigam boas práticas de segurança, incluindo expiração de token e suporte a múltiplos fatores de autenticação em contas administrativas, já que contas de administrador têm acesso a dados de todos os organizadores e participantes da plataforma. Ao mesmo tempo, o tech lead está decidindo entre RBAC e ABAC para controlar quem pode acessar quais recursos do eventos-api, já que o sistema terá papéis distintos (organizador, participante, administrador) com regras de acesso que podem variar por contexto, e uma escolha malfeita agora seria custosa de reverter depois que a base de usuários crescer.
 
 ### Tarefa
-- Implemente JWT com OAuth2 no eventos-api, incluindo expiração de token e um fluxo simulado de segundo fator de autenticação (MFA) para o papel de administrador.
-- Compare RBAC, ABAC e autorização por recurso, explicando qual modelo você recomendaria para o eventos-api e por quê, considerando os papéis organizador, participante e administrador.
-- Documente a decisão de modelo de autorização em um parágrafo técnico, citando pelo menos um cenário concreto do domínio de eventos em que o modelo escolhido se aplica.
+1. Implemente JWT com OAuth2 no eventos-api, incluindo expiração de token e um fluxo simulado de segundo fator de autenticação (MFA) para o papel de administrador.
+2. Compare RBAC, ABAC e autorização por recurso, explicando qual modelo você recomendaria para o eventos-api e por quê, considerando os papéis organizador, participante e administrador.
+3. Documente a decisão de modelo de autorização em um parágrafo técnico, citando pelo menos um cenário concreto do domínio de eventos em que o modelo escolhido se aplica.
+
+### Resposta
+#### Tarefa 1.
+Implementado em código.
+- OAuth2 com JWT: /app/routes/authentication_router.py
+
+#### Tarefa 2.
+- **RBAC:** Controla o acesso com base no papel do usuário, como administrador, participante ou organizador.
+- **ABAC:** Controla o acesso com base em atributos do usuário, recurso e contexto da requisição.
+- **Autorização por recurso:** Verifica se o usuário possui permissão sobre um recurso específico, como evento ou inscrição.
+
+Eu recomendaria **RBAC combinado com autorização por recurso**, pois o RBAC facilita o controle dos papéis, como organizador, participante e administrador, enquanto a autorização por recurso permite verificar se o usuário possui acesso ao evento específico.
+
+#### Tarefa 3.
+O modelo de RBAC com autorização por recurso permitiria que um organizador pudesse editar apenas os eventos que pertencem a ele, enquanto um participante poderia apenas ver ou se inscrever em eventos permitidos.
 
 
 ## Exercício 8
@@ -145,6 +183,47 @@ O time de compliance exige que sessões de usuário sigam boas práticas de segu
 A empresa parceira que vai integrar via API pediu suporte a comunicação máquina-a-máquina (M2M), sem intervenção de um usuário humano no fluxo de autenticação, além do fluxo já existente para usuários finais autenticados pelo navegador. O contrato comercial assinado com o parceiro especifica exatamente quais operações ele pode executar, e o time jurídico da empresa exige que essa limitação seja tecnicamente garantida, não apenas descrita em papel. O time de segurança pede que os escopos de acesso sejam explícitos, para que o parceiro externo só consiga executar exatamente as operações autorizadas em contrato, nada além disso, mesmo que o token seja comprometido.
 
 ### Tarefa
-- Selecione o fluxo OAuth 2.0 mais adequado para o cenário M2M do parceiro externo, justificando a escolha frente ao fluxo já usado para usuários finais.
-- Configure escopos OAuth e claims JWT específicos para RBAC, distinguindo o escopo de um usuário organizador do escopo do parceiro M2M.
-- Demonstre, com um exemplo de payload de token decodificado, quais claims e escopos diferenciam os dois tipos de cliente.
+1. Selecione o fluxo OAuth 2.0 mais adequado para o cenário M2M do parceiro externo, justificando a escolha frente ao fluxo já usado para usuários finais.
+2. Configure escopos OAuth e claims JWT específicos para RBAC, distinguindo o escopo de um usuário organizador do escopo do parceiro M2M.
+3. Demonstre, com um exemplo de payload de token decodificado, quais claims e escopos diferenciam os dois tipos de cliente.
+
+### Resposta
+#### Tarefa 1.
+Para esse caso do M2M, o fluxo que eu escolhi foi o **Client Credentials**, pois o parceiro irá se comunicar máquina-a-máquina com a API. Diferente do fluxo de usuários normais, o parceiro também deseja acesso somente a determinados escopos de recursos da API.
+
+#### Tarefa 2.
+Implementado em código.
+- escopos OAuth e claims JWT: /app/services/token_service.py
+
+#### Tarefa 3.
+Na implementação feita as permissões são representadas no JWT através dos claims `access_type` e `allowed_resources`. Sendo a função de cada uma delas:
+- `access_type`: Identificar o tipo de acesso do cliente. Podendo ser `standard` para usuários normais ou `by_resources` para parceiros como o M2M.
+- `allowed_resources`: Define quais recursos e ações podem ser acessados.
+
+Exemplo de payload JWT para um usuário organizador:
+```json
+{
+  "sub": "1010",
+  "exp": 1788401989,
+  "access_type": "standard",
+  "allowed_resources": {},
+  "created_at": 1788400189.957734
+}
+```
+
+Exemplo de payload JWT para um parceiro máquina-a-máquina (M2M):
+```json
+{
+  "sub": "1012",
+  "exp": 1788401989,
+  "access_type": "by_resources",
+  "allowed_resources": {
+    "events": {
+      "read": true,
+      "write": true,
+      "delete": false
+    }
+  },
+  "created_at": 1788400189.957734
+}
+```
