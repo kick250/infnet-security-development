@@ -53,7 +53,7 @@ class EventsRouter(BaseRouter):
             event: Annotated[UpdateEvent, Body(embed=True)],
             user: Annotated[User, Depends(get_active_user)]
         ) -> ResponseModel:
-        self.__check_existence(id, user.id)
+        self.__check_ownership(id, user.id)
 
         updated_event = self.__events_repository.save(
             event.name,
@@ -66,7 +66,7 @@ class EventsRouter(BaseRouter):
 
         return updated_event
 
-    def __check_existence(self, id: int, owner_id: int):
+    def __check_ownership(self, id: int, owner_id: int):
         if not self.__events_repository.exists_by_id_and_owner_id(id, owner_id):
             raise HTTPException(status.HTTP_404_NOT_FOUND, "Evento não encontrado nos seus eventos.")
 

@@ -61,8 +61,8 @@ O time de segurança quer consolidar o trabalho dos dois exercícios anteriores 
 ### Resposta
 #### Tarefa 1. & 2. & 3.
 Localizado:
-- pdf: docs/tp2/exercise3/thread-model.pdf
-- md: docs/tp2/exercise3/thread-model.md
+- pdf: https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise3/threat-model.pdf
+- md: https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise3/threat-model.md
 
 
 ## Exercício 4
@@ -117,13 +117,36 @@ Considerar esses três eixos é necessário porque a segurança da API não depe
 ## Exercício 6
 
 ### Contexto
-
 Com a modelagem de ameaças consolidada, chegou a hora de implementar a primeira camada real de autenticação do eventos-api. O produto exige que apenas usuários cadastrados possam criar e gerenciar eventos, e que senhas nunca sejam armazenadas em texto plano, requisito não negociável levantado pelo time de segurança na revisão do threat model, depois de um incidente em outro projeto da empresa em que senhas ficaram expostas em um vazamento de banco de dados por estarem salvas sem hashing. Além disso, rotas de edição de evento precisam garantir que apenas o organizador dono do evento possa modificá-lo, fechando a lacuna de autorização que o threat model já havia identificado.
 
 ### Tarefa
-- Implemente autenticação com OAuth2PasswordBearer no eventos-api, aplicando hashing de senha com bcrypt via passlib.
-- Proteja a rota de edição de evento usando dependency injection do FastAPI, garantindo que apenas o organizador dono do evento (verificação de ownership) possa executá-la.
-- Demonstre, com um teste manual via httpie ou similar, o comportamento da rota de edição para um usuário autenticado dono do evento e para um usuário autenticado que não é dono.
+1. Implemente autenticação com OAuth2PasswordBearer no eventos-api, aplicando hashing de senha com bcrypt via passlib.
+2. Proteja a rota de edição de evento usando dependency injection do FastAPI, garantindo que apenas o organizador dono do evento (verificação de ownership) possa executá-la.
+3. Demonstre, com um teste manual via httpie ou similar, o comportamento da rota de edição para um usuário autenticado dono do evento e para um usuário autenticado que não é dono.
+
+### Resposta
+#### Tarefa 1.
+Implementado em código.
+autenticacao: /app/auth.py
+hashing bcrypt: /app/repositories/users_repository.py
+
+#### Tarefa 2.
+Implementado em código.
+dependency injection:
+- arquivo: /app/routes/events_router.py
+- metodo: `EventsRouter#update_handler`
+verificação de ownership:
+- arquivo: /app/routes/events_router.py
+- metodo: `EventsRouter#__check_ownership`
+
+#### Tarefa 3.
+Prints:
+
+Quando o usuário é dono do evento:
+- ![Quando o usuário é dono do evento(local /docs/tp2/exercise6/owner_user.png)](https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise6/owner_user.png)
+
+Quando o usuário não é dono do evento:
+- ![Quando o usuário não é dono do evento(local /docs/tp2/exercise6/not_owner_user.png)](https://github.com/kick250/infnet-security-development/tree/main/tp2/docs/tp2/exercise6/not_owner_user.png)
 
 
 ## Exercício 7
